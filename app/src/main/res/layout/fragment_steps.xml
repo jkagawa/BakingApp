@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/steps_short_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/step_short_description"
+            android:textStyle="bold"
+            android:background="@drawable/recipe_card_border"/>
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/steps_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="0dp"
+            layout_constraintTop_toBottomOf="@+id/steps_short_description"
+            android:layout_marginLeft="0dp"
+            layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/steps_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/step_description"
+            android:textStyle="bold"
+            android:background="@drawable/recipe_card_border"/>
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Go back"-->
+            <!--android:onClick="goBack"/>-->
+
+    </LinearLayout>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Baking Recipes</string>
+
+    <string name="description_image">Recipe Image</string>
+    <string name="recipe_name">Recipe Name</string>
+
+    <string name="servings">Servings: %1$s</string>
+
+    <string name="ingredient_label">Ingredients:</string>
+    <string name="ingredient_name">-</string>
+    <string name="ingredient_amount">%1$s %2$s</string>
+
+    <string name="step_number">Step %1$s</string>
+    <string name="step_short_description">-</string>
+    <string name="step_description">-</string>
+
+    <string name="appwidget_text">Ingredients</string>
+    <string name="add_widget">Add widget</string>
+
+</resources>
