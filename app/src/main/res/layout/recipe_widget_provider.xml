@@ -1,12 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary"
-    android:padding="@dimen/widget_margin"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:id="@+id/appwidget_layout">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/colorPrimary"
+        android:padding="15dp"
+        android:orientation="vertical"
+        android:id="@+id/appwidget_layout">
 
     <TextView
         android:id="@+id/appwidget_text"
@@ -23,12 +22,323 @@
         android:textStyle="bold|italic"
         android:gravity="center" />
 
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/appwidget_recipe_ingredients_grid_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        tools:listitem="@layout/ingredients_list_item"/>
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_amount10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/step_short_description"
+            android:background="@drawable/simple_border"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/appwidget_ingredient_name10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_number"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
 
 </LinearLayout>

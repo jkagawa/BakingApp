@@ -79,8 +79,6 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
     public static final String EXTRA_STEPS_VIDEO_URL_KEY = "EXTRA_STEPS_VIDEO_URL";
     public static final String EXTRA_STEPS_THUMBNAIL_URL_KEY = "EXTRA_STEPS_THUMBNAIL_URL";
 
-    private Toast mToast;
-
     public static boolean mTwoPane;
     StepsFragment stepsFragment;
     public static int mPosition;
@@ -91,10 +89,6 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
         setContentView(R.layout.activity_detail);
 
         ButterKnife.bind(this);
-
-        //mServingsView = findViewById(R.id.detail_servings);
-        //mIngredientsRecyclerView = findViewById(R.id.recyclerview_ingredients);
-        //mStepsRecyclerView = findViewById(R.id.recyclerview_steps);
 
         Intent intentFromMainActivity = getIntent();
 
@@ -119,7 +113,6 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
                 mServings = intentFromMainActivity.getStringExtra(MainActivity.EXTRA_SERVINGS_KEY);
                 mImage = intentFromMainActivity.getStringExtra(MainActivity.EXTRA_IMAGE_KEY);
 
-                mToast.makeText(this, "Intents worked!", Toast.LENGTH_SHORT).show();
             }
             else if(savedInstanceState != null) {
 
@@ -130,19 +123,17 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
                 mServings = savedInstanceState.getString(MainActivity.EXTRA_SERVINGS_KEY);
                 mImage = savedInstanceState.getString(MainActivity.EXTRA_IMAGE_KEY);
 
-                mToast.makeText(this, "SaveInstance worked!", Toast.LENGTH_SHORT).show();
             }
 
             if (mIngredients != null && !mIngredients.equals("")) {
 
-                GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+                GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
                 mIngredientsRecyclerView.setLayoutManager(layoutManager);
 
                 mIngredientsAdapter = new IngredientsAdapter(MainActivity.NUMBER_OF_ITEMS);
                 mIngredientsRecyclerView.setAdapter(mIngredientsAdapter);
 
                 try {
-                    //JSONObject json = new JSONObject(jsonFromUrl);
                     JSONArray json = new JSONArray(mIngredients);
 
                     for(int i = 0; i<json.length(); i++) {
@@ -155,9 +146,6 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
                     }
 
                     mIngredientsAdapter.setData(mIngredientQuantityList, mIngredientMeasureList, mIngredientNameList);
-
-
-                    //mToast.makeText(this, String.valueOf(mIngredientNameList.size()), Toast.LENGTH_SHORT).show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -202,27 +190,10 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
 
             if(findViewById(R.id.steps_linear_layout) != null) {
                 mTwoPane = true;
-
-                /*if(stepsFragment != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-
-                    fragmentManager.beginTransaction()
-                            .remove(stepsFragment)
-                            .commit();
-                }
-
-                stepsFragment = new StepsFragment();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-
-                fragmentManager.beginTransaction()
-                        .add(R.id.steps_fragment, stepsFragment)
-                        .commit();*/
             }
             else {
                 mTwoPane = false;
             }
-            mToast.makeText(this, "Two Pane: " + mTwoPane, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -234,28 +205,6 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
 
         mPosition = position;
 
-        /*mStepsID = mStepsIDList.get(position);
-        mStepsShortDescription = mStepsShortDescriptionList.get(position);
-        mStepsDescription = mStepsDescriptionList.get(position);
-        mStepsVideoURL = mStepsVideoURLList.get(position);
-        mStepsThumbnailURL = mStepsThumbnailURLList.get(position);
-
-        if(stepsFragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction()
-                    .remove(stepsFragment)
-                    .commit();
-        }
-
-        stepsFragment = new StepsActivity();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.steps_fragment, stepsFragment)
-                .commit();
-*/
         if(mTwoPane) {
             if(stepsFragment != null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -284,22 +233,6 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
             startActivity(movieDetailIntent);
         }
     }
-
-    /*
-    public void goBack(View view) {
-        //mFragment = findViewById(R.id.steps_fragment);
-
-        //mFragment.setVisibility(View.INVISIBLE);
-
-        //StepsActivity stepsFragment = new StepsActivity();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .remove(stepsFragment)
-                .commit();
-    }
-    */
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

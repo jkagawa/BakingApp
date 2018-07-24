@@ -11,6 +11,16 @@
         android:orientation="vertical"
         android:background="@color/colorAccent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_recipe_label"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:padding="15dp"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_recipes"
             android:layout_width="match_parent"

@@ -19,7 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/servings" />
+            android:text="@string/servings"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/recipe_card_border">
 
         <TextView
             android:id="@+id/detail_ingredients_label"
@@ -27,12 +36,16 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/ingredient_label"
-            android:textStyle="bold"/>
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="5dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_steps"

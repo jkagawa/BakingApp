@@ -53,10 +53,6 @@ public class StepsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
 
-        //mPlayerView = findViewById(R.id.steps_video_player);
-        //mStepsShortDescriptionView = findViewById(R.id.steps_short_description);
-        //mStepsDescriptionView = findViewById(R.id.steps_description);
-
         if(stepsFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -86,40 +82,9 @@ public class StepsActivity extends AppCompatActivity {
             mStepsThumbnailURL = intentFromMainActivity.getStringExtra(DetailActivity.EXTRA_STEPS_THUMBNAIL_URL_KEY);
 
             setTitle(mRecipeName);
-
-            //mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(),R.drawable.no_recipe_image));
-            //initializePlayer(Uri.parse(mStepsVideoURL));
-
-            //mStepsShortDescriptionView.setText(mStepsShortDescription);
-            //mStepsDescriptionView.setText(mStepsDescription);
-
-
-
         }
 
     }
-/*
-    private void initializePlayer(Uri mediaUri) {
-        if(mExoplayer == null) {
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            TrackSelection.Factory videoTrackSelectionFactory =
-                    new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-            DefaultTrackSelector trackSelector =
-                    new DefaultTrackSelector(videoTrackSelectionFactory);
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoplayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-            mPlayerView.setPlayer(mExoplayer);
-
-            DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer");
-            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null);
-            mExoplayer.prepare(mediaSource);
-            mExoplayer.setPlayWhenReady(true);
-
-            //mToast.makeText(this, mStepsVideoURL, Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
 
     private void releasePlayer() {
         mExoplayer.stop();

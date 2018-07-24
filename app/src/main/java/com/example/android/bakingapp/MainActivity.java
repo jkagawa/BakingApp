@@ -62,14 +62,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        //mRecyclerView = findViewById(R.id.recyclerview_recipes);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
         int gridSpan = 1;
         if(width > 1500) {
-            gridSpan = 3;
+            gridSpan = 2;
         }
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, gridSpan);
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
             if (jsonFromUrl != null && !jsonFromUrl.equals("")) {
                 try {
-                    //JSONObject json = new JSONObject(jsonFromUrl);
                     JSONArray json = new JSONArray(jsonFromUrl);
 
                     for(int i = 0; i<json.length(); i++) {

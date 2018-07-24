@@ -49,8 +49,6 @@ public class StepsFragment extends Fragment {
 
     private SimpleExoPlayer mExoplayer;
 
-    private Toast mToast;
-
     public StepsFragment() {
 
     }
@@ -83,44 +81,8 @@ public class StepsFragment extends Fragment {
         mStepsShortDescriptionView.setText(mStepsShortDescription);
         mStepsDescriptionView.setText(mStepsDescription);
 
-        mToast.makeText(getContext(), StepsActivity.mStepsShortDescription, Toast.LENGTH_SHORT).show();
-
         return rootView;
     }
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_steps);
-
-        mPlayerView = findViewById(R.id.steps_video_player);
-        mStepsShortDescriptionView = findViewById(R.id.steps_short_description);
-        mStepsDescriptionView = findViewById(R.id.steps_description);
-
-        Intent intentFromMainActivity = getIntent();
-
-        Bundle extras = getIntent().getExtras();
-
-        if(extras != null) {
-            mRecipeName = intentFromMainActivity.getStringExtra(MainActivity.EXTRA_RECIPE_NAME_KEY);
-            mStepsID = intentFromMainActivity.getStringExtra(DetailActivity.EXTRA_STEPS_ID_KEY);
-            mStepsShortDescription = intentFromMainActivity.getStringExtra(DetailActivity.EXTRA_STEPS_SHORT_DESCRIPTION_KEY);
-            mStepsDescription = intentFromMainActivity.getStringExtra(DetailActivity.EXTRA_STEPS_DESCRIPTION_KEY);
-            mStepsVideoURL = intentFromMainActivity.getStringExtra(DetailActivity.EXTRA_STEPS_VIDEO_URL_KEY);
-            mStepsThumbnailURL = intentFromMainActivity.getStringExtra(DetailActivity.EXTRA_STEPS_THUMBNAIL_URL_KEY);
-
-            setTitle(mRecipeName);
-
-            mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(),R.drawable.no_recipe_image));
-            initializePlayer(Uri.parse(mStepsVideoURL));
-
-            mStepsShortDescriptionView.setText(mStepsShortDescription);
-            mStepsDescriptionView.setText(mStepsDescription);
-
-        }
-
-    }*/
 
     private void initializePlayer(Uri mediaUri) {
         if(mExoplayer == null) {
@@ -138,8 +100,6 @@ public class StepsFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null);
             mExoplayer.prepare(mediaSource);
             mExoplayer.setPlayWhenReady(true);
-
-            //mToast.makeText(this, mStepsVideoURL, Toast.LENGTH_SHORT).show();
         }
     }
 

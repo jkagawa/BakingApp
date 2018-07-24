@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -33,8 +34,6 @@ import butterknife.ButterKnife;
 import static com.example.android.bakingapp.utilities.NetworkUtils.stringToURL;
 
 public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
-
-    private RecipeWidgetGridRemoteViewsFactory mRecipeWidgetGridRemoteViewsFactory;
 
     public final static String JSON_LINK = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     public final static URL JSON_RESULT = stringToURL(JSON_LINK);
@@ -74,6 +73,10 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
 
     private static final String PREFS_RECIPE_NAME_KEY = "recipe_name";
 
+    private static final String WIDGET_INREDIENT_AMOUNT_PREFIX = "appwidget_ingredient_amount";
+    private static final String WIDGET_INREDIENT_NAME_PREFIX = "appwidget_ingredient_name";
+    private static final String R_ID_KEY = "id";
+
     private Toast mToast;
 
     @Override
@@ -100,7 +103,7 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
         int width = displayMetrics.widthPixels;
         int gridSpan = 1;
         if(width > 1500) {
-            gridSpan = 3;
+            gridSpan = 2;
         }
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, gridSpan);
@@ -124,12 +127,11 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
 
         mRecipeName = mRecipeNameList.get(position);
 
-        Intent intent2 = new Intent(context, GridWidgetService.class);
-        mRecipeWidgetGridRemoteViewsFactory = new RecipeWidgetGridRemoteViewsFactory(context, intent2);
-        //mIngredientsRecyclerView.setAdapter(mRecipeWidgetGridRemoteViewsFactory);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
         try {
-            //JSONObject json = new JSONObject(jsonFromUrl);
             JSONArray json = new JSONArray(mIngredientsList.get(position));
 
             for(int i = 0; i<json.length(); i++) {
@@ -141,36 +143,37 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
 
             }
 
-            mRecipeWidgetGridRemoteViewsFactory.setData(mRecipeName, mIngredientQuantityList, mIngredientMeasureList, mIngredientNameList, mAppWidgetId);
+            //mRecipeWidgetGridRemoteViewsFactory.setData(mRecipeName, mIngredientQuantityList, mIngredientMeasureList, mIngredientNameList, mAppWidgetId);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-
-        for (int i=0; i<mIngredientNameList.size(); i++) {
-            views.setRemoteAdapter(R.id.appwidget_recipe_ingredients_grid_view, intent2);
-        }
-        appWidgetManager.notifyAppWidgetViewDataChanged(mAppWidgetId, R.id.appwidget_recipe_ingredients_grid_view);
-
         saveRecipeNamePref(context, mAppWidgetId, mRecipeName);
 
-        views.setTextViewText(R.id.appwidget_text, mRecipeName);
-//
-//        // Here we setup the intent which points to the AppLauncherWidgetViewService which will
-//// provide the views for this collection.
-//        Intent intent = new Intent(context, RecipeWidgetGridRemoteViewsFactory.class);
-//        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-//// When intents are compared, the extras are ignored, so we need to embed the extras
-//// into the data so that the extras will not be ignored.
-//        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-//        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-//        rv.setRemoteAdapter(R.id.appwidget_recipe_ingredients_grid_view, intent);
-//
-//        appWidgetManager.notifyAppWidgetViewDataChanged(mAppWidgetId, R.id.appwidget_recipe_ingredients_grid_view);
+        views.setTextViewText(R.id.appwidget_text, context.getResources().getString(R.string.appwidget_text, mRecipeName));
+
+        for(int i=1; i<=10; i++) {
+            String ingredientAmountViewID = WIDGET_INREDIENT_AMOUNT_PREFIX + String.valueOf(i);
+            int resID = context.getResources().getIdentifier(ingredientAmountViewID, R_ID_KEY, context.getPackageName());
+
+            String ingredientNameViewID = WIDGET_INREDIENT_NAME_PREFIX + String.valueOf(i);
+            int resID2 = context.getResources().getIdentifier(ingredientNameViewID, R_ID_KEY, context.getPackageName());
+
+            if(mIngredientNameList.size()>=i) {
+                views.setTextViewText(resID, context.getResources().getString(R.string.ingredient_amount, mIngredientQuantityList.get(i-1), mIngredientMeasureList.get(i-1)));
+                views.setTextViewText(resID2, mIngredientNameList.get(i-1));
+            }
+            else {
+                views.setViewVisibility(resID, View.GONE);
+                views.setViewVisibility(resID2, View.GONE);
+            }
+
+        }
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.appwidget_layout, pendingIntent);
 
         appWidgetManager.updateAppWidget(mAppWidgetId, views);
 
@@ -198,13 +201,6 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
             return context.getString(R.string.appwidget_text);
         }
 
-//        SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, 0);
-//        String recipeName = preferences.getString(PREFS_RECIPE_NAME_KEY, null);
-//        if (recipeName != null) {
-//            return recipeName;
-//        } else {
-//            return context.getString(R.string.appwidget_text);
-//        }
     }
 
     public class UrlQueryTask extends AsyncTask<URL, Void, String> {
