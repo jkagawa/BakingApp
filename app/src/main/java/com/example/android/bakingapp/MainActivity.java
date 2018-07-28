@@ -1,5 +1,8 @@
 package com.example.android.bakingapp;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,7 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.utilities.NetworkUtils;
 
@@ -56,10 +62,32 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     public static final String EXTRA_SERVINGS_KEY = "EXTRA_SERVINGS";
     public static final String EXTRA_IMAGE_KEY = "EXTRA_IMAGE";
 
+    public static String mRecipeName;
+    public static List<String> mIngredientQuantityList = new ArrayList<>();
+    public static List<String> mIngredientMeasureList = new ArrayList<>();
+    public static List<String> mIngredientNameList = new ArrayList<>();
+
+    private int mAppWidgetId;
+
+    private Toast mToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //final Context context = MainActivity.this;
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = intent.getIntExtra(RecipeWidgetConfigure.WIDGET_ID_KEY, -1);
+
+            //mToast = Toast.makeText(this, String.valueOf(mAppWidgetId), Toast.LENGTH_LONG);
+            //mToast.show();
+        }
+
+
 
         ButterKnife.bind(this);
 
@@ -83,6 +111,69 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
     @Override
     public void onClick(int position) {
+
+        //START - Update Widget
+        final Context context = MainActivity.this;
+
+        mIngredientQuantityList = new ArrayList<>();
+        mIngredientMeasureList = new ArrayList<>();
+        mIngredientNameList = new ArrayList<>();
+
+        mRecipeName = mRecipeNameList.get(position);
+
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+
+        try {
+            JSONArray json = new JSONArray(mIngredientsList.get(position));
+
+            for(int i = 0; i<json.length(); i++) {
+                JSONObject focus = json.getJSONObject(i);
+                mIngredientQuantityList.add(focus.optString(DetailActivity.INGREDIENT_QUANTITY_KEY));
+                mIngredientMeasureList.add(focus.optString(DetailActivity.INGREDIENT_MEASURE_KEY));
+                mIngredientNameList.add(focus.optString(DetailActivity.INGREDIENT_NAME_KEY));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RecipeWidgetConfigure.saveRecipeNamePref(context, mAppWidgetId, mRecipeName);
+
+        views.setTextViewText(R.id.appwidget_text, context.getResources().getString(R.string.appwidget_text, mRecipeName));
+
+        for(int i=1; i<=10; i++) {
+            String ingredientAmountViewID = RecipeWidgetConfigure.WIDGET_INREDIENT_AMOUNT_PREFIX + String.valueOf(i);
+            int resID = context.getResources().getIdentifier(ingredientAmountViewID, RecipeWidgetConfigure.R_ID_KEY, context.getPackageName());
+
+            String ingredientNameViewID = RecipeWidgetConfigure.WIDGET_INREDIENT_NAME_PREFIX + String.valueOf(i);
+            int resID2 = context.getResources().getIdentifier(ingredientNameViewID, RecipeWidgetConfigure.R_ID_KEY, context.getPackageName());
+
+            if(mIngredientNameList.size()>=i) {
+                views.setTextViewText(resID, context.getResources().getString(R.string.ingredient_amount, mIngredientQuantityList.get(i-1), mIngredientMeasureList.get(i-1)));
+                views.setTextViewText(resID2, mIngredientNameList.get(i-1));
+            }
+            else {
+                views.setViewVisibility(resID, View.GONE);
+                views.setViewVisibility(resID2, View.GONE);
+            }
+
+        }
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.appwidget_layout, pendingIntent);
+
+        appWidgetManager.updateAppWidget(mAppWidgetId, views);
+
+//        Intent resultValue = new Intent();
+//        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+//        setResult(RESULT_OK, resultValue);
+//        finish();
+        //START - Update Widget
+
+        //START - Intent to Launch DetailActivity
         Intent movieDetailIntent = new Intent(MainActivity.this, DetailActivity.class);
         movieDetailIntent.putExtra(EXTRA_RECIPE_ID_KEY, mRecipeIDList.get(position));
         movieDetailIntent.putExtra(EXTRA_RECIPE_NAME_KEY, mRecipeNameList.get(position));
@@ -91,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         movieDetailIntent.putExtra(EXTRA_SERVINGS_KEY, mServingsList.get(position));
         movieDetailIntent.putExtra(EXTRA_IMAGE_KEY, mImageList.get(position));
         startActivity(movieDetailIntent);
+        //END - Intent to Launch DetailActivity
     }
 
     public class UrlQueryTask extends AsyncTask<URL, Void, String> {

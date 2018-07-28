@@ -6,8 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +66,19 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
 
         holder.stepsShortDescriptionView.setText(mStepsShortDescriptionList.get(position));
 
+        URL url = null;
+        try {
+            url = new URL(mStepsThumbnailURLList.get(position));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        if(url!=null) {
+            Picasso.with(context)
+                    .load(url.toString())
+                    .error(R.drawable.no_recipe_image)
+                    .into(holder.stepsImageView);
+        }
+
     }
 
     @Override
@@ -78,6 +96,7 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
 
         //final TextView stepsNumberView;
         //final TextView stepsShortDescriptionView;
+        @BindView(R.id.detail_step_image) ImageView stepsImageView;
         @BindView(R2.id.detail_step_number) TextView stepsNumberView;
         @BindView(R2.id.detail_step_short_description) TextView stepsShortDescriptionView;
 

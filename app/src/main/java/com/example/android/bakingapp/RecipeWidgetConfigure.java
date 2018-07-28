@@ -73,9 +73,10 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
 
     private static final String PREFS_RECIPE_NAME_KEY = "recipe_name";
 
-    private static final String WIDGET_INREDIENT_AMOUNT_PREFIX = "appwidget_ingredient_amount";
-    private static final String WIDGET_INREDIENT_NAME_PREFIX = "appwidget_ingredient_name";
-    private static final String R_ID_KEY = "id";
+    public static final String WIDGET_INREDIENT_AMOUNT_PREFIX = "appwidget_ingredient_amount";
+    public static final String WIDGET_INREDIENT_NAME_PREFIX = "appwidget_ingredient_name";
+    public static final String R_ID_KEY = "id";
+    public static final String WIDGET_ID_KEY = "widgetid";
 
     private Toast mToast;
 
@@ -94,6 +95,9 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
                     AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
+
+        //mToast = Toast.makeText(this, String.valueOf(mAppWidgetId), Toast.LENGTH_LONG);
+        //mToast.show();
 
         ButterKnife.bind(this);
         //mRecyclerView = findViewById(R.id.recyclerview_recipes);
@@ -172,7 +176,8 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
         }
 
         Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.putExtra(WIDGET_ID_KEY, mAppWidgetId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.appwidget_layout, pendingIntent);
 
         appWidgetManager.updateAppWidget(mAppWidgetId, views);
@@ -187,13 +192,13 @@ public class RecipeWidgetConfigure extends AppCompatActivity implements RecipeAd
     static void saveRecipeNamePref(Context context, int appWidgetId, String recipeName) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor  = preferences.edit();
-        editor.putString(PREFS_RECIPE_NAME_KEY, recipeName);
+        editor.putString(PREFS_RECIPE_NAME_KEY + appWidgetId, recipeName);
         editor.apply();
     }
 
     static String loadRecipeName(Context context, int appWidgetId) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String recipeName = preferences.getString(PREFS_RECIPE_NAME_KEY, "");
+        String recipeName = preferences.getString(PREFS_RECIPE_NAME_KEY + appWidgetId, "");
         if(!recipeName.equalsIgnoreCase(""))
         {
             return recipeName;

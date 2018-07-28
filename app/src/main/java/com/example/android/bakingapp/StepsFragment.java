@@ -26,6 +26,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,12 +50,21 @@ public class StepsFragment extends Fragment {
 
     private SimpleExoPlayer mExoplayer;
 
+    private long playerPosition;
+    private boolean getPlayerWhenReady = true;
+
+    private String PLAYER_POSITION = "player_position";
+    private String PLAYER_STATE = "player_state";
+
+    private Toast mToast;
+
     public StepsFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_steps, container, false);
 
@@ -75,8 +85,16 @@ public class StepsFragment extends Fragment {
             mStepsDescription = StepsActivity.mStepsDescription;;
         }
 
+
+        getPlayerWhenReady = true;
+
+        if(savedInstanceState!=null) {
+            playerPosition = savedInstanceState.getLong(PLAYER_POSITION);
+            getPlayerWhenReady = savedInstanceState.getBoolean(PLAYER_STATE);
+        }
+
         mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_recipe_image));
-        initializePlayer(Uri.parse(mStepsVideoURL));
+        initializePlayer(Uri.parse(mStepsVideoURL), savedInstanceState);
 
         mStepsShortDescriptionView.setText(mStepsShortDescription);
         mStepsDescriptionView.setText(mStepsDescription);
@@ -84,7 +102,7 @@ public class StepsFragment extends Fragment {
         return rootView;
     }
 
-    private void initializePlayer(Uri mediaUri) {
+    private void initializePlayer(Uri mediaUri, Bundle savedInstanceState) {
         if(mExoplayer == null) {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory =
@@ -93,13 +111,16 @@ public class StepsFragment extends Fragment {
                     new DefaultTrackSelector(videoTrackSelectionFactory);
             LoadControl loadControl = new DefaultLoadControl();
             mExoplayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+            if(playerPosition > 0) {
+                mExoplayer.seekTo(playerPosition);
+            }
+            mExoplayer.setPlayWhenReady(getPlayerWhenReady);
             mPlayerView.setPlayer(mExoplayer);
-
             DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer");
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null);
             mExoplayer.prepare(mediaSource);
-            mExoplayer.setPlayWhenReady(true);
         }
     }
 
@@ -107,6 +128,31 @@ public class StepsFragment extends Fragment {
         mExoplayer.stop();
         mExoplayer.release();
         mExoplayer = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        playerPosition = mExoplayer.getCurrentPosition();
+        getPlayerWhenReady = mExoplayer.getPlayWhenReady();
+        outState.putLong(PLAYER_POSITION, playerPosition);
+        outState.putBoolean(PLAYER_STATE, getPlayerWhenReady);
     }
 
 }

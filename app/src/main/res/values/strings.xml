@@ -16,7 +16,9 @@
     <string name="step_short_description">-</string>
     <string name="step_description">-</string>
 
-    <string name="appwidget_text">Ingredients for %1$s\</string>
+    <string name="appwidget_text">%1$s Ingredients</string>
     <string name="add_widget">Add widget</string>
+
+    <string name="description_step">Step Image</string>
 
 </resources>
