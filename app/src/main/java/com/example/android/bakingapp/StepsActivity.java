@@ -48,26 +48,26 @@ public class StepsActivity extends AppCompatActivity {
 
     StepsFragment stepsFragment;
 
+    FragmentManager fragmentManager;
+
+    private long playerPosition;
+    private boolean getPlayerWhenReady;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
 
-        if(stepsFragment != null) {
+        if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
 
+            stepsFragment = new StepsFragment();
             fragmentManager.beginTransaction()
-                    .remove(stepsFragment)
+                    .add(R.id.steps_fragment, stepsFragment)
                     .commit();
         }
-
-        stepsFragment = new StepsFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.steps_fragment, stepsFragment)
-                .commit();
+        
+        //Toast.makeText(getApplicationContext(), "StepsActivity onCreate",Toast.LENGTH_LONG).show();
 
         Intent intentFromMainActivity = getIntent();
 
@@ -84,12 +84,6 @@ public class StepsActivity extends AppCompatActivity {
             setTitle(mRecipeName);
         }
 
-    }
-
-    private void releasePlayer() {
-        mExoplayer.stop();
-        mExoplayer.release();
-        mExoplayer = null;
     }
 
 }

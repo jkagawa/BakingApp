@@ -120,11 +120,11 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
     }
 
     public void setData(List<String> stepsIDList, List<String> stepsShortDescriptionList, List<String> stepsDescriptionList, List<String> stepsVideoURLList, List<String> stepsThumbnailURLList) {
-        stepsIDList.remove(0);
-        stepsShortDescriptionList.remove(0);
-        stepsDescriptionList.remove(0);
-        stepsVideoURLList.remove(0);
-        stepsThumbnailURLList.remove(0);
+//        stepsIDList.remove(0);
+//        stepsShortDescriptionList.remove(0);
+//        stepsDescriptionList.remove(0);
+//        stepsVideoURLList.remove(0);
+//        stepsThumbnailURLList.remove(0);
 
         mStepsIDList = stepsIDList;
         mStepsShortDescriptionList = stepsShortDescriptionList;

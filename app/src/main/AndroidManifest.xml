@@ -32,7 +32,6 @@
         <activity
             android:name=".StepsActivity"
             android:parentActivityName=".DetailActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

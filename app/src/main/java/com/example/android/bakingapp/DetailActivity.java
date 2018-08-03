@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -125,7 +126,7 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
 
             }
 
-            if (mIngredients != null && !mIngredients.equals("")) {
+            if (!TextUtils.isEmpty(mIngredients)) {
 
                 GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
                 mIngredientsRecyclerView.setLayoutManager(layoutManager);
@@ -153,7 +154,7 @@ public class DetailActivity extends AppCompatActivity implements StepsAdapter.St
 
             }
 
-            if (mSteps != null && !mSteps.equals("")) {
+            if (!TextUtils.isEmpty(mSteps)) {
 
                 GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
                 mStepsRecyclerView.setLayoutManager(layoutManager);
